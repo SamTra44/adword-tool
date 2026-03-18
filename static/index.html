@@ -95,7 +95,7 @@ input::placeholder{color:#1e3050}
       <div class="topbar-title">AdWord Auto Order Tool</div>
       <div class="topbar-sub">Version 2.0 — Automation Engine</div>
     </div>
-    <div class="live-badge"><span class="live-dot"></span>LIVE</div>
+    <div style="display:flex;align-items:center;gap:8px;margin-left:auto"><div class="live-badge"><span class="live-dot"></span>LIVE</div><button onclick="doLogout()" style="background:transparent;border:1px solid #ef444466;color:#ef4444;border-radius:6px;padding:3px 10px;font-size:10px;cursor:pointer;font-weight:600">Logout</button></div>
   </div>
 
   <div class="body">
@@ -269,6 +269,7 @@ async function startOrders(){
   document.getElementById('btn-x').disabled=true;
 }
 
+async function doLogout(){await fetch("/logout",{method:"POST"});window.location.reload();}
 function stopOrders(){
   stopFlag=true;
   log('Stop requested — finishing current order...','muted');
