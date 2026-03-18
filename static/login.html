@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AdWord Auto Order Tool — Login</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#07090f;font-family:'Segoe UI',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.card{background:#0e1117;border:1px solid #1e2a3a;border-radius:16px;width:100%;max-width:380px;overflow:hidden;box-shadow:0 12px 48px #000000aa}
+.topbar{background:linear-gradient(135deg,#0f2027,#1a3a5c);padding:20px;text-align:center;border-bottom:1px solid #1e3a5c}
+.logo{width:48px;height:48px;background:#1a6ff5;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.logo svg{width:26px;height:26px;fill:white}
+.topbar-title{color:#fff;font-size:17px;font-weight:700}
+.topbar-sub{color:#6b8caa;font-size:11px;margin-top:4px}
+.body{padding:24px}
+.field{margin-bottom:16px}
+.lbl{font-size:10px;color:#4a6fa5;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px;display:block;font-weight:600}
+input{width:100%;background:#070c14;border:1px solid #1e2d42;border-radius:9px;padding:11px 13px;color:#c9d8eb;font-size:14px;outline:none;transition:border .2s}
+input:focus{border-color:#1a6ff5}
+input::placeholder{color:#1e3050}
+.btn-login{width:100%;padding:13px;background:#1a6ff5;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:background .15s;margin-top:6px}
+.btn-login:hover{background:#1558cc}
+.btn-login:disabled{opacity:.5;cursor:not-allowed}
+.error{background:#1a0a08;border:1px solid #7f1d1d;border-radius:8px;padding:10px 13px;color:#fca5a5;font-size:12px;margin-bottom:14px;display:none}
+.footer{text-align:center;margin-top:18px;font-size:10px;color:#1a2a3a}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="topbar">
+    <div class="logo">
+      <svg viewBox="0 0 24 24"><path d="M3 3h18v2H3zm0 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3zm0 4h12v2H3z"/></svg>
+    </div>
+    <div class="topbar-title">AdWord Auto Order Tool</div>
+    <div class="topbar-sub">Version 2.0 — Please login to continue</div>
+  </div>
+
+  <div class="body">
+    <div class="error" id="err-box" role="alert"></div>
+
+    <div class="field">
+      <span class="lbl">Username</span>
+      <input id="username" type="text" placeholder="Enter username" autocomplete="username"/>
+    </div>
+
+    <div class="field">
+      <span class="lbl">Password</span>
+      <input id="password" type="password" placeholder="Enter password" autocomplete="current-password"/>
+    </div>
+
+    <button class="btn-login" id="btn" onclick="doLogin()">Login →</button>
+
+    <div class="footer">AdWord Auto Order Tool 2.0 &nbsp;•&nbsp; Authorized Access Only</div>
+  </div>
+</div>
+
+<script>
+document.getElementById('password').addEventListener('keydown', function(e){
+  if(e.key === 'Enter') doLogin();
+});
+document.getElementById('username').addEventListener('keydown', function(e){
+  if(e.key === 'Enter') document.getElementById('password').focus();
+});
+
+async function doLogin(){
+  const u = document.getElementById('username').value.trim();
+  const p = document.getElementById('password').value;
+  const btn = document.getElementById('btn');
+  const err = document.getElementById('err-box');
+
+  if(!u || !p){ showErr('Please enter username and password.'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Logging in...';
+  err.style.display = 'none';
+
+  try{
+    const r = await fetch('/login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({username: u, password: p})
+    });
+    const d = await r.json();
+    if(d.success){
+      window.location.reload();
+    } else {
+      showErr(d.error || 'Invalid credentials.');
+      btn.disabled = false;
+      btn.textContent = 'Login →';
+    }
+  } catch {
+    showErr('Connection error. Please try again.');
+    btn.disabled = false;
+    btn.textContent = 'Login →';
+  }
+}
+
+function showErr(msg){
+  const e = document.getElementById('err-box');
+  e.textContent = '⚠ ' + msg;
+  e.style.display = 'block';
+}
+</script>
+</body>
+</html>
