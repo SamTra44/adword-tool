@@ -8,8 +8,6 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#07090f;font-family:'Segoe UI',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
 .card{background:#0e1117;border:1px solid #1e2a3a;border-radius:16px;width:100%;max-width:500px;overflow:hidden;box-shadow:0 12px 48px #000000aa}
-
-/* Top bar */
 .topbar{background:linear-gradient(135deg,#0f2027,#1a3a5c);padding:16px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #1e3a5c}
 .logo{width:32px;height:32px;background:#1a6ff5;border-radius:8px;display:flex;align-items:center;justify-content:center}
 .logo svg{width:18px;height:18px;fill:white}
@@ -17,16 +15,10 @@ body{background:#07090f;font-family:'Segoe UI',sans-serif;min-height:100vh;displ
 .topbar-sub{color:#6b8caa;font-size:11px;margin-top:1px}
 .live-badge{margin-left:auto;background:#12261a;border:1px solid #1a6b3a;color:#4ade80;font-size:10px;font-weight:600;padding:4px 10px;border-radius:20px;display:flex;align-items:center;gap:5px}
 .live-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:blink 1.2s infinite}
-
-/* Body */
 .body{padding:20px}
-
-/* Fund alert */
 .fund-alert{display:none;background:#1a0a08;border:1px solid #7f1d1d;border-radius:10px;padding:13px 16px;margin-bottom:16px;color:#fca5a5;font-size:13px;align-items:center;gap:10px}
 .fund-alert svg{width:18px;height:18px;flex-shrink:0;fill:#ef4444}
 .fund-btn{margin-left:auto;background:#ef4444;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
-
-/* Fields */
 .field{margin-bottom:14px}
 .lbl{font-size:10px;color:#4a6fa5;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px;display:block;font-weight:600}
 input{width:100%;background:#070c14;border:1px solid #1e2d42;border-radius:9px;padding:10px 13px;color:#c9d8eb;font-size:13px;outline:none;transition:border .2s}
@@ -34,26 +26,20 @@ input:focus{border-color:#1a6ff5}
 input::placeholder{color:#1e3050}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
-/* Service tag */
-.svc-box{background:#070c14;border:1px solid #1e2d42;border-radius:9px;padding:11px 14px;display:flex;align-items:center;gap:10px}
-.svc-icon{background:#1a6ff5;border-radius:5px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.svc-icon svg{width:13px;height:13px;fill:white}
-.svc-text{color:#4a8fc5;font-size:12px}
-.svc-lock{margin-left:auto;color:#2a4a6a;font-size:15px}
+/* Service Dropdown */
+.svc-select{width:100%;background:#070c14;border:1px solid #1e2d42;border-radius:9px;padding:10px 13px;color:#4a8fc5;font-size:12px;outline:none;cursor:pointer;transition:border .2s;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%234a6fa5' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;background-color:#070c14}
+.svc-select:focus{border-color:#1a6ff5}
+.svc-select option{background:#0e1117;color:#c9d8eb;padding:8px}
+.svc-badge{display:inline-block;background:#0d1f35;border:1px solid #1a6ff5;color:#4a8fc5;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;margin-bottom:6px}
 
-/* Stats */
 .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:16px 0}
 .stat{background:#070c14;border:1px solid #1e2d42;border-radius:10px;padding:12px 10px;text-align:center}
 .stat-val{font-size:26px;font-weight:700;color:#c9d8eb}
 .stat-val.green{color:#4ade80}
 .stat-lbl{font-size:10px;color:#4a6fa5;margin-top:2px;text-transform:uppercase;letter-spacing:.08em}
-
-/* Progress */
 .prog-row{display:flex;justify-content:space-between;font-size:11px;color:#2a4a6a;margin-bottom:5px}
 .prog-bg{background:#070c14;border-radius:4px;height:6px;overflow:hidden;margin-bottom:12px;border:1px solid #1e2d42}
 .prog-fill{height:100%;background:#1a6ff5;border-radius:4px;transition:width .4s}
-
-/* Status */
 .status-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
 .dot{width:8px;height:8px;border-radius:50%;background:#2a3a4a;flex-shrink:0}
 .dot.run{background:#4ade80;animation:blink 1s infinite}
@@ -61,8 +47,6 @@ input::placeholder{color:#1e3050}
 .dot.stop{background:#ef4444}
 .status-txt{font-size:12px;color:#4a6fa5}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
-
-/* Buttons */
 .btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 .btn-go{background:#1a6ff5;color:#fff;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s;letter-spacing:.01em}
 .btn-go:hover{background:#1558cc}
@@ -70,16 +54,12 @@ input::placeholder{color:#1e3050}
 .btn-stop{background:transparent;color:#ef4444;border:1.5px solid #ef4444;border-radius:10px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s}
 .btn-stop:hover:not(:disabled){background:#1a0808}
 .btn-stop:disabled{opacity:.25;cursor:not-allowed}
-
-/* Log */
 .log-header{font-size:10px;color:#2a4a6a;letter-spacing:.12em;text-transform:uppercase;font-weight:600;margin-bottom:6px}
 .log-box{background:#050810;border:1px solid #111d2e;border-radius:10px;padding:12px 14px;height:160px;overflow-y:auto;font-family:'Consolas','Courier New',monospace;font-size:11px}
 .log-box::-webkit-scrollbar{width:4px}
 .log-box::-webkit-scrollbar-thumb{background:#1e2d42;border-radius:2px}
 .lg{margin-bottom:3px;line-height:1.6}
 .ok{color:#4ade80}.err{color:#f87171}.info{color:#60a5fa}.muted{color:#1e3050}
-
-/* Footer */
 .footer{text-align:center;margin-top:14px;font-size:10px;color:#1a2a3a;letter-spacing:.05em}
 </style>
 </head>
@@ -95,7 +75,10 @@ input::placeholder{color:#1e3050}
       <div class="topbar-title">AdWord Auto Order Tool</div>
       <div class="topbar-sub">Version 2.0 — Automation Engine</div>
     </div>
-    <div style="display:flex;align-items:center;gap:8px;margin-left:auto"><div class="live-badge"><span class="live-dot"></span>LIVE</div><button onclick="doLogout()" style="background:transparent;border:1px solid #ef444466;color:#ef4444;border-radius:6px;padding:3px 10px;font-size:10px;cursor:pointer;font-weight:600">Logout</button></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-left:auto">
+      <div class="live-badge"><span class="live-dot"></span>LIVE</div>
+      <button onclick="doLogout()" style="background:transparent;border:1px solid #ef444466;color:#ef4444;border-radius:6px;padding:3px 10px;font-size:10px;cursor:pointer;font-weight:600">Logout</button>
+    </div>
   </div>
 
   <div class="body">
@@ -107,15 +90,16 @@ input::placeholder{color:#1e3050}
       <button class="fund-btn" onclick="this.parentElement.style.display='none'">OK</button>
     </div>
 
-    <!-- Service -->
+    <!-- Service Dropdown -->
     <div class="field">
       <span class="lbl">Service</span>
-      <div class="svc-box">
-        <div class="svc-icon">
-          <svg viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
-        </div>
-        <span class="svc-text">Live Stream Views — 90 Minutes</span>
-        <span class="svc-lock">🔒</span>
+      <select class="svc-select" id="service-id" onchange="updateServiceBadge()">
+        <option value="1554">🔥 #1554 — SV4 Facebook Live Stream Views | 90 Min</option>
+        <option value="1236">⚡ #1236 — Facebook Live Stream Views | 90 Min | Instant Start</option>
+      </select>
+      <div style="margin-top:6px;display:flex;align-items:center;gap:6px">
+        <span class="svc-badge" id="svc-badge">Service #1554</span>
+        <span style="font-size:10px;color:#2a4a6a">selected — Facebook Live Stream Views</span>
       </div>
     </div>
 
@@ -143,7 +127,7 @@ input::placeholder{color:#1e3050}
       <input id="gap" type="number" value="30" min="5"/>
     </div>
 
-    <!-- Stats: only Placed + Success -->
+    <!-- Stats -->
     <div class="stats">
       <div class="stat">
         <div class="stat-val" id="s-placed">0</div>
@@ -187,6 +171,11 @@ input::placeholder{color:#1e3050}
 <script>
 let stopFlag=false,placed=0,okCount=0,total=0;
 
+function updateServiceBadge(){
+  const val=document.getElementById('service-id').value;
+  document.getElementById('svc-badge').textContent='Service #'+val;
+}
+
 function ts(){return new Date().toTimeString().slice(0,8)}
 function log(m,c='muted'){
   const b=document.getElementById('log');
@@ -210,6 +199,7 @@ async function startOrders(){
   const qty=parseInt(document.getElementById('qty').value)||0;
   const tot=parseInt(document.getElementById('total').value)||0;
   const gap=parseInt(document.getElementById('gap').value)||0;
+  const serviceId=document.getElementById('service-id').value;
 
   if(!link||!link.includes('facebook.com')){alert('Please enter a valid Facebook Live link.');return}
   if(qty<20||qty>5000){alert('Quantity must be between 20 and 5000.');return}
@@ -223,7 +213,7 @@ async function startOrders(){
   document.getElementById('btn-x').disabled=false;
   setDot('run');
   setStatus('Running — placing orders...');
-  log(`Session started: ${tot} orders | Qty: ${qty} | Gap: ${gap}s`,'info');
+  log(`Session started | Service: #${serviceId} | Orders: ${tot} | Qty: ${qty} | Gap: ${gap}s`,'info');
 
   for(let i=1;i<=tot;i++){
     if(stopFlag)break;
@@ -232,7 +222,7 @@ async function startOrders(){
       const r=await fetch('/place-order',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({link,quantity:qty})
+        body:JSON.stringify({link,quantity:qty,service_id:serviceId})
       });
       const d=await r.json();
       if(d.order){
@@ -243,18 +233,15 @@ async function startOrders(){
         document.getElementById('fund-alert').style.display='flex';
         stopFlag=true;break;
       } else {
-        log(`Order #${i} — Failed. Please retry.`,'err');
+        log(`Order #${i} — Failed: ${d.error||'Please retry.'}`,'err');
       }
     }catch{
-      log(`Order #${i} — Connection error. Retrying next.`,'err');
+      log(`Order #${i} — Connection error.`,'err');
     }
     upStats();
-    if(i<tot&&!stopFlag){
-      await sleep(gap);
-    }
+    if(i<tot&&!stopFlag) await sleep(gap);
   }
 
-  // Done
   setDot(stopFlag?'stop':'done');
   if(stopFlag&&document.getElementById('fund-alert').style.display==='flex'){
     setStatus('Stopped — Add funds to continue.');
