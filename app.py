@@ -7,14 +7,17 @@ app = Flask(__name__, static_folder="static")
 CORS(app)
 app.secret_key = "adword_secret_x9k2m"
 
-# --- HIDDEN CONFIG ---
-API_KEY = os.environ.get("SMM_API_KEY", "877f4a9fcf5d5770b86f97867beea5bc")
-API_URL = "https://honestsmm.com/api/v2"
-SERVICE_ID = "1554"
-# --- LOGIN ---
+# --- CONFIG ---
+API_KEY  = os.environ.get("SMM_API_KEY", "877f4a9fcf5d5770b86f97867beea5bc")
+API_URL  = "https://honestsmm.com/api/v2"
+
+# Allowed service IDs
+ALLOWED_SERVICES = {"1554", "1236"}
+
+# Login
 USERNAME = "rozmin"
 PASSWORD = "Secure@123"
-# -------------
+# --------------
 
 @app.route("/")
 def index():
@@ -40,9 +43,14 @@ def place_order():
     if not session.get("logged_in"):
         return jsonify({"error": "Unauthorized"}), 401
 
-    data = request.json
-    link = data.get("link", "").strip()
-    quantity = data.get("quantity", 0)
+    data       = request.json
+    link       = data.get("link", "").strip()
+    quantity   = data.get("quantity", 0)
+    service_id = str(data.get("service_id", "1554")).strip()
+
+    # Validate service
+    if service_id not in ALLOWED_SERVICES:
+        return jsonify({"error": "Invalid service selected"}), 400
 
     if not link or "facebook.com" not in link:
         return jsonify({"error": "Valid Facebook link required"}), 400
@@ -50,11 +58,11 @@ def place_order():
         return jsonify({"error": "Quantity must be 20-5000"}), 400
 
     try:
-        resp = requests.post(API_URL, data={
-            "key": API_KEY,
-            "action": "add",
-            "service": SERVICE_ID,
-            "link": link,
+        resp   = requests.post(API_URL, data={
+            "key":      API_KEY,
+            "action":   "add",
+            "service":  service_id,
+            "link":     link,
             "quantity": quantity
         }, timeout=15)
         result = resp.json()
@@ -63,12 +71,12 @@ def place_order():
             return jsonify({"order": result["order"]})
         elif "error" in result:
             err = result["error"].lower()
-            if "balance" in err or "fund" in err or "credit" in err or "insufficient" in err:
+            if any(w in err for w in ["balance","fund","credit","insufficient"]):
                 return jsonify({"error": "BALANCE_LOW"})
             return jsonify({"error": "Order could not be placed. Please try again."})
         else:
             return jsonify({"error": "Unexpected response. Try again."})
-    except Exception as e:
+    except Exception:
         return jsonify({"error": "Connection failed. Please try again."}), 500
 
 @app.route("/check-balance", methods=["GET"])
@@ -76,16 +84,13 @@ def check_balance():
     if not session.get("logged_in"):
         return jsonify({"ok": False}), 401
     try:
-        resp = requests.post(API_URL, data={
-            "key": API_KEY,
-            "action": "balance"
-        }, timeout=10)
+        resp   = requests.post(API_URL, data={"key": API_KEY, "action": "balance"}, timeout=10)
         result = resp.json()
         if "balance" in result:
             bal = float(result["balance"])
             return jsonify({"ok": True, "low": bal < 50})
         return jsonify({"ok": False})
-    except:
+    except Exception:
         return jsonify({"ok": False})
 
 if __name__ == "__main__":
