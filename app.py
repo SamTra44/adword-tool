@@ -1,23 +1,45 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, session
 from flask_cors import CORS
 import requests
 import os
 
 app = Flask(__name__, static_folder="static")
 CORS(app)
+app.secret_key = "adword_secret_x9k2m"
 
 # --- HIDDEN CONFIG ---
 API_KEY = os.environ.get("SMM_API_KEY", "877f4a9fcf5d5770b86f97867beea5bc")
 API_URL = "https://honestsmm.com/api/v2"
 SERVICE_ID = "1554"
-# ---------------------
+# --- LOGIN ---
+USERNAME = "rozmin"
+PASSWORD = "Secure@123"
+# -------------
 
 @app.route("/")
 def index():
+    if not session.get("logged_in"):
+        return send_from_directory("static", "login.html")
     return send_from_directory("static", "index.html")
+
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.json
+    if data.get("username") == USERNAME and data.get("password") == PASSWORD:
+        session["logged_in"] = True
+        return jsonify({"success": True})
+    return jsonify({"success": False, "error": "Invalid username or password"})
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    session.clear()
+    return jsonify({"success": True})
 
 @app.route("/place-order", methods=["POST"])
 def place_order():
+    if not session.get("logged_in"):
+        return jsonify({"error": "Unauthorized"}), 401
+
     data = request.json
     link = data.get("link", "").strip()
     quantity = data.get("quantity", 0)
@@ -37,7 +59,6 @@ def place_order():
         }, timeout=15)
         result = resp.json()
 
-        # Hide pricing/charge info, only return order ID or clean error
         if "order" in result:
             return jsonify({"order": result["order"]})
         elif "error" in result:
@@ -52,6 +73,8 @@ def place_order():
 
 @app.route("/check-balance", methods=["GET"])
 def check_balance():
+    if not session.get("logged_in"):
+        return jsonify({"ok": False}), 401
     try:
         resp = requests.post(API_URL, data={
             "key": API_KEY,
