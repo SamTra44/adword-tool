@@ -123,8 +123,8 @@ input::placeholder{color:#1e3050}
 
     <!-- Gap -->
     <div class="field">
-      <span class="lbl">Gap Between Orders (seconds)</span>
-      <input id="gap" type="number" value="30" min="5"/>
+      <span class="lbl">Gap Between Orders (minutes)</span>
+      <input id="gap" type="number" value="1" min="1"/>
     </div>
 
     <!-- Stats -->
@@ -204,7 +204,7 @@ async function startOrders(){
   if(!link||!link.includes('facebook.com')){alert('Please enter a valid Facebook Live link.');return}
   if(qty<20||qty>5000){alert('Quantity must be between 20 and 5000.');return}
   if(tot<1){alert('Total orders must be at least 1.');return}
-  if(gap<5){alert('Gap must be at least 5 seconds.');return}
+  if(gap<1){alert('Gap must be at least 1 minute.');return}
 
   stopFlag=false;placed=0;okCount=0;total=tot;
   upStats();
@@ -213,7 +213,7 @@ async function startOrders(){
   document.getElementById('btn-x').disabled=false;
   setDot('run');
   setStatus('Running — placing orders...');
-  log(`Session started | Service: #${serviceId} | Orders: ${tot} | Qty: ${qty} | Gap: ${gap}s`,'info');
+  log(`Session started | Service: #${serviceId} | Orders: ${tot} | Qty: ${qty} | Gap: ${gap}min`,'info');
 
   for(let i=1;i<=tot;i++){
     if(stopFlag)break;
@@ -239,7 +239,7 @@ async function startOrders(){
       log(`Order #${i} — Connection error.`,'err');
     }
     upStats();
-    if(i<tot&&!stopFlag) await sleep(gap);
+    if(i<tot&&!stopFlag) await sleep(gap*60);
   }
 
   setDot(stopFlag?'stop':'done');
